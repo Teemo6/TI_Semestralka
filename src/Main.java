@@ -1,36 +1,26 @@
+import java.util.InputMismatchException;
+import java.util.Optional;
+import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        Stroj stroj = new Stroj();
+        int vstupCislo;
 
-        Stroj s1 = new Stroj();
+        while (true){
 
-        s1.printStav();
-        s1.zmenStav(StrojStav.S_1A);
-        s1.printStav();
-        s1.zmenStav(StrojStav.S_3A);
-        s1.printStav();
-        s1.zmenStav(StrojStav.S_4A);
-        s1.printStav();
-        s1.zmenStav(StrojStav.S_5A);
-        s1.printStav();
-        s1.zmenStav(StrojStav.S_0);
-        s1.printStav();
-        s1.zmenStav(StrojStav.S_1B);
-        s1.printStav();
-        s1.zmenStav(StrojStav.S_2B);
-        s1.printStav();
-        s1.zmenStav(StrojStav.S_3B);
-        s1.printStav();
-        s1.zmenStav(StrojStav.S_4B);
-        s1.printStav();
-        s1.zmenStav(StrojStav.S_5B);
-        s1.printStav();
-        s1.zmenStav(StrojStav.S_0);
-        s1.printStav();
-        s1.zmenStav(StrojStav.S_6);
-        s1.printStav();
-        s1.zmenStav(StrojStav.S_7);
-        s1.printStav();
-        s1.zmenStav(StrojStav.S_0);
-        s1.printStav();
+            try{
+                vstupCislo = sc.nextInt();
+            } catch (InputMismatchException e) {
+                continue;
+            }
+
+            if(vstupCislo < 0){
+                break;
+            }
+
+            StrojVstup.convert(vstupCislo).ifPresent(stroj::vstup_znaku);
+        }
     }
 }

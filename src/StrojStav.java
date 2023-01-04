@@ -5,40 +5,47 @@ public enum StrojStav {
     /////////////////////////////
     ////// Počáteční stav ///////
     /////////////////////////////
-    S_0("Systém čeká na vstup"),
+    S_0(0, "Počáteční stav"),
+    S_1(1, "Nádrže nejsou prázdné"),
+    S_2(2, "Ruční vypouštění nádrže A"),
+    S_3(3, "Ruční vypouštění nádrže B"),
+    S_4(4, "Systém čeká na vstup"),
 
     /////////////////////////////
-    ////// Cyklus nádoby A //////
+    ///// Sanitace nádoby A /////
     /////////////////////////////
-    S_1A("Napouštění louhem A"),
-    S_2A("Vypouštění louhu A"),
-    S_3A("Napouštění vodou A"),
-    S_4A("Proplachování vodou A"),
-    S_5A("Vypouštění vody A"),
+    S_5A(5, "Napouštění louhem nádrže A"),
+    S_6A(6, "Vypouštění louhu nádrže A"),
+    S_7A(7, "Napouštění vodou nádrže A"),
+    S_8A(8, "Proplachování vodou nádrže A"),
+    S_9A(9, "Vypouštění vody nádrže A"),
 
     /////////////////////////////
-    ////// Cyklus nádoby B //////
+    ///// Sanitace nádoby B /////
     /////////////////////////////
-    S_1B("Napouštění louhem B"),
-    S_2B("Vypouštění louhu B"),
-    S_3B("Napouštění vodou B"),
-    S_4B("Proplachování vodou B"),
-    S_5B("Vypouštění vody B"),
-
-    /////////////////////////////
-    ////// Chybový cyklus ///////
-    /////////////////////////////
-    S_6("Nádrže nejsou prázdné"),
-    S_7("Ruční vypouštění obou nádrží");
-
+    S_5B(10, "Napouštění louhem nádrže B"),
+    S_6B(11, "Vypouštění louhu nádrže B"),
+    S_7B(12, "Napouštění vodou nádrže B"),
+    S_8B(13, "Proplachování vodou nádrže B"),
+    S_9B(14, "Vypouštění vody nádrže B");
 
     /////////////////////////////
     //////// Konstruktor ////////
     /////////////////////////////
+    private final int index;
     private final String popis;
 
-    StrojStav(String popis) {
+    StrojStav(int oznaceni, String popis) {
+        this.index = oznaceni;
         this.popis = popis;
+    }
+
+    /**
+     * Vrátí označení operace
+     * @return index
+     */
+    public int getIndex() {
+        return index;
     }
 
     /**

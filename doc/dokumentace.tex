@@ -34,6 +34,7 @@ bottom=30mm,
 \usepackage{algorithm}							% Algoritmus
 \usepackage[noend]{algpseudocode}				% Pseudokod
 \usepackage{dirtree}							% Adresarova struktura
+												% Tabulky pomoci https://www.tablesgenerator.com/
 
 % Macra
 \newcommand\la{\textlangle}  					% levá závorka <
@@ -97,7 +98,6 @@ bottom=30mm,
 	
 	Technologické schéma je vidět na obrázku \ref{fig:schema} na straně \pageref{fig:schema}.
 	
-	
 	\begin{figure}
 		\centering
 		\includegraphics[width=0.6\textheight]{schema}
@@ -105,8 +105,64 @@ bottom=30mm,
 		\label{fig:schema}
 	\end{figure}
 	
-	% Zadání
+	% Analýza úlohy
 	\chapter{Analýza úlohy}
+	
+	\section{Stavy modelu}
+	\begin{table}[]
+		\begin{tabular}{ll}
+			\hline
+			\multicolumn{1}{c}{Stav} 	 & \multicolumn{1}{c}{Popis}      \\ \hline
+			0                            & Počáteční stav				  \\
+			1                            & Nádrže nejsou prázdné          \\
+			2                            & Ruční vypouštění nádrže A   	  \\ 
+			3                            & Ruční vypouštění nádrže B   	  \\ 
+			4                            & Systém čeká na vstup 		  \\ \hline
+			5A                           & Napouštění louhem nádrže A     \\
+			6A                           & Vypouštění louhu nádrže A      \\
+			7A                           & Napouštění vodou nádrže A      \\
+			8A                           & Proplachování vodou nádrže A   \\
+			9A                           & Vypouštění vody nádrže A       \\ \hline
+			5B                           & Napouštění louhem nádrže B     \\
+			6B                           & Vypouštění louhu nádrže B      \\
+			7B                           & Napouštění vodou nádrže B      \\
+			8B                           & Proplachování vodou nádrže B   \\
+			9B                           & Vypouštění vody nádrže B       \\ \hline
+		\end{tabular}
+	\end{table}
+	
+	\section{Vstupní signály}
+	\begin{table}[]
+		\begin{tabular}{lll}
+			\hline
+			\multicolumn{1}{c}{Vstupní signál} 	& \multicolumn{1}{c}{Druh} & \multicolumn{1}{c}{Popis}  \\ \hline
+			N\_A                                & Aktivní                  & Spuštění sanitace nádrže A \\
+			N\_B                                & Aktivní                  & Spuštění sanitace nádrže B \\
+			LA1\_i                              & Pasivní                  & Horní mez hladiny nádrže A \\
+			LA2\_i                              & Pasivní                  & Dolní mez hladiny nádrže A \\
+			LA3\_i                              & Pasivní                  & Horní mez hladiny nádrže B \\
+			LA4\_i                              & Pasivní                  & Dolní mez hladiny nádrže B \\
+			Q\_i                                & Pasivní                  & Kontrola pH na výtoku      \\
+			RUC                                 & Aktivní                  & Ruční vypouštění nádrží    \\ \hline
+		\end{tabular}
+	\end{table}
+	
+	\section{Řídící signály}
+	\begin{table}[]
+		\begin{tabular}{ll}
+			\hline
+			\multicolumn{1}{c}{Řídící signál} 	& \multicolumn{1}{c}{Popis}  	\\ \hline
+			V1\_i          					  	& Ventil 1      			   	\\
+			V2\_i         					  	& Ventil 2      				\\
+			V3\_i          					  	& Ventil 3      				\\
+			V4\_i          					  	& Ventil 4      				\\
+			V5\_i          					  	& Ventil 5      				\\
+			V6\_i          					  	& Ventil 6      				\\
+			V7\_i          					  	& Ventil 7      				\\
+			P\_i          					  	& Čerpadlo      				\\
+			Z\_i          					  	& Žárovka      					\\ \hline
+		\end{tabular}
+	\end{table}
 	
 	% Automatový model
 	\chapter{Automatový model}
