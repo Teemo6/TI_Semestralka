@@ -1,5 +1,3 @@
-import jdk.swing.interop.SwingInterOpUtils;
-
 public class Stroj {
     private final StrojStav[][] tab_prechodu = new StrojStav[StrojStav.values().length][StrojVstup.values().length];
     private final int[][] tab_vystupu = new int[StrojStav.values().length][StrojVstup.values().length];
@@ -25,11 +23,15 @@ public class Stroj {
     public void inic_tab(){
         // TABULKA PRECHODU
         // Pocatecni stav
-        tab_prechodu[StrojStav.S_0.getIndex()][StrojVstup.LA2_1.getIndex()] =  StrojStav.S_1;
-        tab_prechodu[StrojStav.S_0.getIndex()][StrojVstup.LA4_1.getIndex()] =  StrojStav.S_1;
-        tab_prechodu[StrojStav.S_1.getIndex()][StrojVstup.RUC.getIndex()]   =  StrojStav.S_2;
-        tab_prechodu[StrojStav.S_2.getIndex()][StrojVstup.LA2_0.getIndex()] =  StrojStav.S_3;
-        tab_prechodu[StrojStav.S_3.getIndex()][StrojVstup.LA4_0.getIndex()] =  StrojStav.S_4;
+        tab_prechodu[StrojStav.S_0.getIndex()] [StrojVstup.AB_01.getIndex()] = StrojStav.S_1;
+        tab_prechodu[StrojStav.S_0.getIndex()] [StrojVstup.AB_10.getIndex()] = StrojStav.S_1;
+        tab_prechodu[StrojStav.S_0.getIndex()] [StrojVstup.AB_11.getIndex()] = StrojStav.S_1;
+        tab_prechodu[StrojStav.S_0.getIndex()] [StrojVstup.LA2_1.getIndex()] = StrojStav.S_1;
+        tab_prechodu[StrojStav.S_0.getIndex()] [StrojVstup.LA4_1.getIndex()] = StrojStav.S_1;
+        tab_prechodu[StrojStav.S_1.getIndex()] [StrojVstup.RUC.getIndex()]   = StrojStav.S_2;
+        tab_prechodu[StrojStav.S_2.getIndex()] [StrojVstup.LA2_0.getIndex()] = StrojStav.S_3;
+        tab_prechodu[StrojStav.S_3.getIndex()] [StrojVstup.LA4_0.getIndex()] = StrojStav.S_4;
+        tab_prechodu[StrojStav.S_0.getIndex()] [StrojVstup.AB_00.getIndex()] = StrojStav.S_4;
 
         // Sanitace A
         tab_prechodu[StrojStav.S_4.getIndex()] [StrojVstup.N_A.getIndex()]   = StrojStav.S_5A;
@@ -51,27 +53,31 @@ public class Stroj {
 
         // TABULKA VYSTUPU
         // Pocatecni stav
-        tab_vystupu[StrojStav.S_0.getIndex()][StrojVstup.LA2_1.getIndex()] = 1;
-        tab_vystupu[StrojStav.S_0.getIndex()][StrojVstup.LA4_1.getIndex()] = 1;
-        tab_vystupu[StrojStav.S_1.getIndex()][StrojVstup.RUC.getIndex()]   = 2;
-        tab_vystupu[StrojStav.S_2.getIndex()][StrojVstup.LA2_0.getIndex()] = 3;
-        tab_vystupu[StrojStav.S_3.getIndex()][StrojVstup.LA4_0.getIndex()] = 4;
+        tab_vystupu[StrojStav.S_0.getIndex()] [StrojVstup.AB_01.getIndex()] = 1;
+        tab_vystupu[StrojStav.S_0.getIndex()] [StrojVstup.AB_10.getIndex()] = 1;
+        tab_vystupu[StrojStav.S_0.getIndex()] [StrojVstup.AB_11.getIndex()] = 1;
+        tab_vystupu[StrojStav.S_0.getIndex()] [StrojVstup.LA2_1.getIndex()] = 1;
+        tab_vystupu[StrojStav.S_0.getIndex()] [StrojVstup.LA4_1.getIndex()] = 1;
+        tab_vystupu[StrojStav.S_1.getIndex()] [StrojVstup.RUC.getIndex()]   = 2;
+        tab_vystupu[StrojStav.S_2.getIndex()] [StrojVstup.LA2_0.getIndex()] = 3;
+        tab_vystupu[StrojStav.S_3.getIndex()] [StrojVstup.LA4_0.getIndex()] = 4;
+        tab_vystupu[StrojStav.S_0.getIndex()] [StrojVstup.AB_00.getIndex()] = 5;
 
         // Sanitace A
-        tab_vystupu[StrojStav.S_4.getIndex()] [StrojVstup.N_A.getIndex()]   = 5;
-        tab_vystupu[StrojStav.S_5A.getIndex()][StrojVstup.LA1_1.getIndex()] = 6;
-        tab_vystupu[StrojStav.S_6A.getIndex()][StrojVstup.LA2_0.getIndex()] = 7;
-        tab_vystupu[StrojStav.S_7A.getIndex()][StrojVstup.LA1_1.getIndex()] = 8;
-        tab_vystupu[StrojStav.S_8A.getIndex()][StrojVstup.Q_0.getIndex()]   = 9;
-        tab_vystupu[StrojStav.S_9A.getIndex()][StrojVstup.LA2_0.getIndex()] = 10;
+        tab_vystupu[StrojStav.S_4.getIndex()] [StrojVstup.N_A.getIndex()]   = 6;
+        tab_vystupu[StrojStav.S_5A.getIndex()][StrojVstup.LA1_1.getIndex()] = 7;
+        tab_vystupu[StrojStav.S_6A.getIndex()][StrojVstup.LA2_0.getIndex()] = 8;
+        tab_vystupu[StrojStav.S_7A.getIndex()][StrojVstup.LA1_1.getIndex()] = 9;
+        tab_vystupu[StrojStav.S_8A.getIndex()][StrojVstup.Q_0.getIndex()]   = 10;
+        tab_vystupu[StrojStav.S_9A.getIndex()][StrojVstup.LA2_0.getIndex()] = 11;
 
         // Sanitace B
-        tab_vystupu[StrojStav.S_4.getIndex()] [StrojVstup.N_B.getIndex()]   = 11;
-        tab_vystupu[StrojStav.S_5B.getIndex()][StrojVstup.LA3_1.getIndex()] = 12;
-        tab_vystupu[StrojStav.S_6B.getIndex()][StrojVstup.LA4_0.getIndex()] = 13;
-        tab_vystupu[StrojStav.S_7B.getIndex()][StrojVstup.LA3_1.getIndex()] = 14;
-        tab_vystupu[StrojStav.S_8B.getIndex()][StrojVstup.Q_0.getIndex()]   = 15;
-        tab_vystupu[StrojStav.S_9B.getIndex()][StrojVstup.LA4_0.getIndex()] = 16;
+        tab_vystupu[StrojStav.S_4.getIndex()] [StrojVstup.N_B.getIndex()]   = 12;
+        tab_vystupu[StrojStav.S_5B.getIndex()][StrojVstup.LA3_1.getIndex()] = 13;
+        tab_vystupu[StrojStav.S_6B.getIndex()][StrojVstup.LA4_0.getIndex()] = 14;
+        tab_vystupu[StrojStav.S_7B.getIndex()][StrojVstup.LA3_1.getIndex()] = 15;
+        tab_vystupu[StrojStav.S_8B.getIndex()][StrojVstup.Q_0.getIndex()]   = 16;
+        tab_vystupu[StrojStav.S_9B.getIndex()][StrojVstup.LA4_0.getIndex()] = 17;
     }
 
     public void inic_stav(){
@@ -117,6 +123,9 @@ public class Stroj {
 
     public void vyst_akce(){
         int vystup = tab_vystupu[stav.getIndex()][vstup.getIndex()];
+        if(vystup != 0){
+            System.out.println("Výstup: ");
+        }
         switch (vystup) {
             // Pocatecni stav
             case 1 -> {
@@ -148,15 +157,19 @@ public class Stroj {
                 System.out.println(StrojVystup.Z_0.getPopis());
             }
 
+            case 5 ->{
+
+            }
+
             // Sanitace A
-            case 5 -> {
+            case 6 -> {
                 v1 = true;
                 v3 = true;
 
                 System.out.println(StrojVystup.V1_1.getPopis());
                 System.out.println(StrojVystup.V3_1.getPopis());
             }
-            case 6 -> {
+            case 7 -> {
                 v1 = false;
                 v3 = false;
                 v5 = true;
@@ -167,7 +180,7 @@ public class Stroj {
                 System.out.println(StrojVystup.V5_1.getPopis());
                 System.out.println(StrojVystup.P_1.getPopis());
             }
-            case 7 -> {
+            case 8 -> {
                 v5 = false;
                 p = false;
                 v2 = true;
@@ -178,21 +191,21 @@ public class Stroj {
                 System.out.println(StrojVystup.V2_1.getPopis());
                 System.out.println(StrojVystup.V3_1.getPopis());
             }
-            case 8 -> {
+            case 9 -> {
                 v5 = true;
                 v7 = true;
 
                 System.out.println(StrojVystup.V5_1.getPopis());
                 System.out.println(StrojVystup.V7_1.getPopis());
             }
-            case 9 -> {
+            case 10 -> {
                 v2 = false;
                 v3 = false;
 
                 System.out.println(StrojVystup.V2_0.getPopis());
                 System.out.println(StrojVystup.V3_0.getPopis());
             }
-            case 10 -> {
+            case 11 -> {
                 v5 = false;
                 v7 = false;
 
@@ -201,14 +214,14 @@ public class Stroj {
             }
 
             // Sanitace B
-            case 11 -> {
+            case 12 -> {
                 v1 = true;
                 v4 = true;
 
                 System.out.println(StrojVystup.V1_1.getPopis());
                 System.out.println(StrojVystup.V4_1.getPopis());
             }
-            case 12 -> {
+            case 13 -> {
                 v1 = false;
                 v4 = false;
                 v6 = true;
@@ -219,7 +232,7 @@ public class Stroj {
                 System.out.println(StrojVystup.V6_1.getPopis());
                 System.out.println(StrojVystup.P_1.getPopis());
             }
-            case 13 -> {
+            case 14 -> {
                 v6 = false;
                 p = false;
                 v2 = true;
@@ -230,21 +243,21 @@ public class Stroj {
                 System.out.println(StrojVystup.V2_1.getPopis());
                 System.out.println(StrojVystup.V4_1.getPopis());
             }
-            case 14 -> {
+            case 15 -> {
                 v6 = true;
                 v7 = true;
 
                 System.out.println(StrojVystup.V6_1.getPopis());
                 System.out.println(StrojVystup.V7_1.getPopis());
             }
-            case 15 -> {
+            case 16 -> {
                 v2 = false;
                 v4 = false;
 
                 System.out.println(StrojVystup.V2_0.getPopis());
                 System.out.println(StrojVystup.V4_0.getPopis());
             }
-            case 16 -> {
+            case 17 -> {
                 v6 = false;
                 v7 = false;
 
@@ -258,23 +271,85 @@ public class Stroj {
         switch (stav) {
             // Pocatecni stav
             case S_0 -> {
-                System.out.println("+----------------------------+");
+                System.out.println("+----------------------------------+");
                 System.out.println(center("Stav " + stav));
                 System.out.println(center(stav.getPopis()));
-                System.out.println("+----------------------------+");
+                System.out.println("+----------------------------------+");
                 System.out.println(center("Zadejte hladinu nádrží"));
-                System.out.println("+----------------------------+");
-                System.out.println("|  1 = A prázdná, B prázdná  |");
-                System.out.println("|  2 = A prázdná, B plná     |");
-                System.out.println("|  3 = A plná, B prázdná     |");
-                System.out.println("|  4 = A plná, B plná        |");
-                System.out.println("+----------------------------+");
+                System.out.println("+----------------------------------+");
+                System.out.println("|      0 = A prázdná, B prázdná    |");
+                System.out.println("|      1 = A prázdná, B plná       |");
+                System.out.println("|      2 = A plná, B prázdná       |");
+                System.out.println("|      3 = A plná, B plná          |");
+                System.out.println("+----------------------------------+");
+            }
+
+            case S_1 -> {
+                System.out.println("+----------------------------------+");
+                System.out.println(center("Stav " + stav));
+                System.out.println(center(stav.getPopis()));
+                System.out.println("+----------------------------------+");
+                System.out.println(center("Čeká se na ruční vypouštění"));
+                System.out.println(center(StrojVstup.RUC.getIndex() + " = " + StrojVstup.RUC.getPopis()));
+                System.out.println("+----------------------------------+");
+            }
+
+            case S_2 -> {
+                printStav("V nádrži A se nachází kapalina", StrojVstup.LA2_0, StrojVstup.LA2_1);
+            }
+
+            case S_3 -> {
+                printStav("V nádrži B se nachází kapalina", StrojVstup.LA4_0, StrojVstup.LA4_1);
+            }
+
+            case S_4 -> {
+                printStav("Zvolte nádrž pro sanitaci", StrojVstup.N_A, StrojVstup.N_B);
+            }
+
+            case S_5A -> {
+                printStav("Nádrž A je plná louhu", StrojVstup.LA1_0, StrojVstup.LA1_1);
+            }
+
+            case S_6A -> {
+                printStav("V nádrži A již není louh", StrojVstup.LA2_0, StrojVstup.LA2_1);
+            }
+
+            case S_7A -> {
+                printStav("Nádrž A je plná vody", StrojVstup.LA1_0, StrojVstup.LA1_1);
+            }
+
+            case S_8A -> {
+                printStav("Hodnota pH na výtoku klesla", StrojVstup.Q_0, StrojVstup.Q_1);
+            }
+
+            case S_9A -> {
+                printStav("Z nádrže A vytelka všechna voda", StrojVstup.LA2_0, StrojVstup.LA2_1);
+            }
+
+            case S_5B -> {
+                printStav("Nádrž B je plná louhu", StrojVstup.LA3_0, StrojVstup.LA3_1);
+            }
+
+            case S_6B -> {
+                printStav("V nádrži B již není louh", StrojVstup.LA4_0, StrojVstup.LA4_1);
+            }
+
+            case S_7B -> {
+                printStav("Nádrž B je plná vody", StrojVstup.LA3_0, StrojVstup.LA3_1);
+            }
+
+            case S_8B -> {
+                printStav("Hodnota pH na výtoku klesla", StrojVstup.Q_0, StrojVstup.Q_1);
+            }
+
+            case S_9B -> {
+                printStav("Z nádrže B vytelka všechna voda", StrojVstup.LA4_0, StrojVstup.LA4_1);
             }
         }
     }
 
     public static String center(String string) {
-        int cap = 30;
+        int cap = 36;
         StringBuilder sb = new StringBuilder(cap);
         sb.append("|");
         sb.setLength((cap - string.length()) / 2);
@@ -284,19 +359,16 @@ public class Stroj {
         return sb.toString().replace('\0', ' ');
     }
 
-    public void printStav(){
-        System.out.println("----------------");
-        System.out.println("Stav: " + stav + ", " + stav.getPopis());
-        System.out.println("v1: " + v1);
-        System.out.println("v2: " + v2);
-        System.out.println("v3: " + v3);
-        System.out.println("v4: " + v4);
-        System.out.println("v5: " + v5);
-        System.out.println("v6: " + v6);
-        System.out.println("v7: " + v7);
-        System.out.println("p: " + p);
-        System.out.println("z: " + z);
-        System.out.println("----------------");
+
+
+    public void printStav(String prompt, StrojVstup vstup1, StrojVstup vstup2){
+        System.out.println("+----------------------------------+");
+        System.out.println(center("Stav " + stav));
+        System.out.println(center(stav.getPopis()));
+        System.out.println("+----------------------------------+");
+        System.out.println(center(vstup1.getIndex() + " = " + vstup1.getPopis()));
+        System.out.println(center(vstup2.getIndex() + " = " + vstup2.getPopis()));
+        System.out.println("+----------------------------------+");
     }
 
     public StrojStav getStav(){

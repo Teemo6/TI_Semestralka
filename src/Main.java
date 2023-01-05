@@ -1,4 +1,3 @@
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
@@ -9,9 +8,11 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         Stroj stroj = new Stroj();
 
+        // Inicializace automatu
         stroj.inic_stav();
         stroj.inic_tab();
 
+        // Smycka pro vstup
         while (true){
             // Vypis na obrazovku
             if(stroj.changed()) {
@@ -34,8 +35,11 @@ public class Main {
             }
 
             // Predej vstup automatu
-            StrojVstup.convert(vstupCislo).ifPresent(stroj::vstup_znaku);
-            System.out.println("Výstup: ");
+            StrojVstup.convert(vstupCislo).ifPresent(v -> {
+                System.out.println("       " + v);
+                stroj.vstup_znaku(v);
+                System.out.println();
+            });
             stroj.vyst_akce();
             stroj.transf_akce();
         }

@@ -1,27 +1,38 @@
 import java.util.Arrays;
 import java.util.Optional;
 
+/**
+ * Vstup stroje
+ */
 public enum StrojVstup {
+    /////////////////////////////
+    ////// Skupina signálů //////
+    /////////////////////////////
+    AB_00(0, "A prázdná, B prázdná"),
+    AB_01(1, "A prázdná, B plná"),
+    AB_10(2, "A plná, B prázdná"),
+    AB_11(3, "A plná, B plná"),
+
     /////////////////////////////
     ////// Aktivní signály //////
     /////////////////////////////
-    N_A(0, "Spuštění sanitace nádrže A"),
-    N_B(1, "Spuštění sanitace nádrže B"),
-    RUC(2, "Ruční vypouštění nádrží"),
+    RUC(4, "Ruční vypouštění nádrží"),
+    N_A(5, "Sanitace nádrže A"),
+    N_B(6, "Sanitace nádrže B"),
 
     /////////////////////////////
     ////// Pasivní signály //////
     /////////////////////////////
-    LA1_0(3, "Hladina klesla pod horní čidlo A"),
-    LA1_1(4, "Hladina stoupla nad horní čidlo A"),
-    LA2_0(5, "Hladina klesla pod dolní čidlo A"),
-    LA2_1(6, "Hladina stoupla nad dolní čidlo A"),
-    LA3_0(7, "Hladina klesla pod horní čidlo B"),
-    LA3_1(8, "Hladina stoupla nad horní čidlo B"),
-    LA4_0(9, "Hladina klesla pod dolní čidlo B"),
-    LA4_1(10, "Hladina stoupla nad dolní čidlo B"),
-    Q_0(11, "Výtok má vysoké pH"),
-    Q_1(12, "Výtok má nízké pH");
+    LA1_0(7, "LA1 není aktivní"),
+    LA1_1(8, "LA1 aktivní"),
+    LA2_0(9, "LA2 není aktivní"),
+    LA2_1(10, "LA2 aktivní"),
+    LA3_0(11, "LA3 není aktivní"),
+    LA3_1(12, "LA3 aktivní"),
+    LA4_0(13, "LA4 není aktivní"),
+    LA4_1(14, "LA4 aktivní"),
+    Q_0(15, "Q není aktivní"),
+    Q_1(16, "Q aktivní");
 
     /////////////////////////////
     //////// Konstruktor ////////
