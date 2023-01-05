@@ -1,6 +1,6 @@
 public class Stroj {
-    private final StrojStav[][] tab_prechodu = new StrojStav[StrojStav.values().length][StrojVstup.values().length];
-    private final int[][] tab_vystupu = new int[StrojStav.values().length][StrojVstup.values().length];
+    private final StrojStav[][] tab_prechodu = new StrojStav[StrojStav.values().length + 1][StrojVstup.values().length + 1];
+    private final int[][] tab_vystupu = new int[StrojStav.values().length + 1][StrojVstup.values().length + 1];
 
     private StrojStav stav;
     private StrojVstup vstup;
@@ -82,16 +82,6 @@ public class Stroj {
 
     public void inic_stav(){
         stav = StrojStav.S_0;
-
-        System.out.println(StrojVystup.V1_0.getPopis());
-        System.out.println(StrojVystup.V2_0.getPopis());
-        System.out.println(StrojVystup.V3_0.getPopis());
-        System.out.println(StrojVystup.V4_0.getPopis());
-        System.out.println(StrojVystup.V5_0.getPopis());
-        System.out.println(StrojVystup.V6_0.getPopis());
-        System.out.println(StrojVystup.V7_0.getPopis());
-        System.out.println(StrojVystup.P_0.getPopis());
-        System.out.println(StrojVystup.Z_0.getPopis());
 
         change = true;
 
@@ -271,85 +261,60 @@ public class Stroj {
         switch (stav) {
             // Pocatecni stav
             case S_0 -> {
-                System.out.println("+----------------------------------+");
+                System.out.println("+------------------------------------+");
                 System.out.println(center("Stav " + stav));
                 System.out.println(center(stav.getPopis()));
-                System.out.println("+----------------------------------+");
+                System.out.println("+------------------------------------+");
                 System.out.println(center("Zadejte hladinu nádrží"));
-                System.out.println("+----------------------------------+");
-                System.out.println("|      0 = A prázdná, B prázdná    |");
-                System.out.println("|      1 = A prázdná, B plná       |");
-                System.out.println("|      2 = A plná, B prázdná       |");
-                System.out.println("|      3 = A plná, B plná          |");
-                System.out.println("+----------------------------------+");
+                System.out.println("+------------------------------------+");
+                System.out.println("|       1 = A prázdná, B prázdná     |");
+                System.out.println("|       2 = A prázdná, B plná        |");
+                System.out.println("|       3 = A plná, B prázdná        |");
+                System.out.println("|       4 = A plná, B plná           |");
+                System.out.println("+------------------------------------+");
             }
 
             case S_1 -> {
-                System.out.println("+----------------------------------+");
+                System.out.println("+------------------------------------+");
                 System.out.println(center("Stav " + stav));
                 System.out.println(center(stav.getPopis()));
-                System.out.println("+----------------------------------+");
-                System.out.println(center("Čeká se na ruční vypouštění"));
+                System.out.println("+------------------------------------+");
                 System.out.println(center(StrojVstup.RUC.getIndex() + " = " + StrojVstup.RUC.getPopis()));
-                System.out.println("+----------------------------------+");
+                System.out.println("+------------------------------------+");
             }
 
-            case S_2 -> {
-                printStav("V nádrži A se nachází kapalina", StrojVstup.LA2_0, StrojVstup.LA2_1);
-            }
+            case S_2 -> printStav("V nádrži A se nachází kapalina", StrojVstup.LA2_0, StrojVstup.LA2_1);
 
-            case S_3 -> {
-                printStav("V nádrži B se nachází kapalina", StrojVstup.LA4_0, StrojVstup.LA4_1);
-            }
+            case S_3 -> printStav("V nádrži B se nachází kapalina", StrojVstup.LA4_0, StrojVstup.LA4_1);
 
-            case S_4 -> {
-                printStav("Zvolte nádrž pro sanitaci", StrojVstup.N_A, StrojVstup.N_B);
-            }
+            case S_4 -> printStav("Zvolte nádrž pro sanitaci", StrojVstup.N_A, StrojVstup.N_B);
 
-            case S_5A -> {
-                printStav("Nádrž A je plná louhu", StrojVstup.LA1_0, StrojVstup.LA1_1);
-            }
+            // Smycka A
+            case S_5A -> printStav("Nádrž A je plná louhu", StrojVstup.LA1_0, StrojVstup.LA1_1);
 
-            case S_6A -> {
-                printStav("V nádrži A již není louh", StrojVstup.LA2_0, StrojVstup.LA2_1);
-            }
+            case S_6A -> printStav("V nádrži A již není louh", StrojVstup.LA2_0, StrojVstup.LA2_1);
 
-            case S_7A -> {
-                printStav("Nádrž A je plná vody", StrojVstup.LA1_0, StrojVstup.LA1_1);
-            }
+            case S_7A -> printStav("Nádrž A je plná vody", StrojVstup.LA1_0, StrojVstup.LA1_1);
 
-            case S_8A -> {
-                printStav("Hodnota pH na výtoku klesla", StrojVstup.Q_0, StrojVstup.Q_1);
-            }
+            case S_8A -> printStav("Hodnota pH na výtoku klesla", StrojVstup.Q_0, StrojVstup.Q_1);
 
-            case S_9A -> {
-                printStav("Z nádrže A vytelka všechna voda", StrojVstup.LA2_0, StrojVstup.LA2_1);
-            }
+            case S_9A -> printStav("Z nádrže A vytelka všechna voda", StrojVstup.LA2_0, StrojVstup.LA2_1);
 
-            case S_5B -> {
-                printStav("Nádrž B je plná louhu", StrojVstup.LA3_0, StrojVstup.LA3_1);
-            }
+            // Smycka B
+            case S_5B -> printStav("Nádrž B je plná louhu", StrojVstup.LA3_0, StrojVstup.LA3_1);
 
-            case S_6B -> {
-                printStav("V nádrži B již není louh", StrojVstup.LA4_0, StrojVstup.LA4_1);
-            }
+            case S_6B -> printStav("V nádrži B již není louh", StrojVstup.LA4_0, StrojVstup.LA4_1);
 
-            case S_7B -> {
-                printStav("Nádrž B je plná vody", StrojVstup.LA3_0, StrojVstup.LA3_1);
-            }
+            case S_7B -> printStav("Nádrž B je plná vody", StrojVstup.LA3_0, StrojVstup.LA3_1);
 
-            case S_8B -> {
-                printStav("Hodnota pH na výtoku klesla", StrojVstup.Q_0, StrojVstup.Q_1);
-            }
+            case S_8B -> printStav("Hodnota pH na výtoku klesla", StrojVstup.Q_0, StrojVstup.Q_1);
 
-            case S_9B -> {
-                printStav("Z nádrže B vytelka všechna voda", StrojVstup.LA4_0, StrojVstup.LA4_1);
-            }
+            case S_9B -> printStav("Z nádrže B vytelka všechna voda", StrojVstup.LA4_0, StrojVstup.LA4_1);
         }
     }
 
     public static String center(String string) {
-        int cap = 36;
+        int cap = 38;
         StringBuilder sb = new StringBuilder(cap);
         sb.append("|");
         sb.setLength((cap - string.length()) / 2);
@@ -362,13 +327,28 @@ public class Stroj {
 
 
     public void printStav(String prompt, StrojVstup vstup1, StrojVstup vstup2){
-        System.out.println("+----------------------------------+");
+        System.out.println("+------------------------------------+");
         System.out.println(center("Stav " + stav));
         System.out.println(center(stav.getPopis()));
-        System.out.println("+----------------------------------+");
+        System.out.println("+------------------------------------+");
         System.out.println(center(vstup1.getIndex() + " = " + vstup1.getPopis()));
         System.out.println(center(vstup2.getIndex() + " = " + vstup2.getPopis()));
-        System.out.println("+----------------------------------+");
+        System.out.println("+------------------------------------+");
+    }
+
+    public void printStroj(){
+        System.out.println("+-------------+");
+        System.out.println("| Stav: "     + stav + "   |");
+        System.out.println("| Ventil 1: " + (v1 ? "1" : "0") + " |");
+        System.out.println("| Ventil 2: " + (v2 ? "1" : "0") + " |");
+        System.out.println("| Ventil 3: " + (v3 ? "1" : "0") + " |");
+        System.out.println("| Ventil 4: " + (v4 ? "1" : "0") + " |");
+        System.out.println("| Ventil 5: " + (v5 ? "1" : "0") + " |");
+        System.out.println("| Ventil 6: " + (v6 ? "1" : "0") + " |");
+        System.out.println("| Ventil 7: " + (v7 ? "1" : "0") + " |");
+        System.out.println("| Čerpadlo: " + (p  ? "1" : "0") + " |");
+        System.out.println("| Žárovka:  " + (z  ? "1" : "0") + " |");
+        System.out.println("+-------------+");
     }
 
     public StrojStav getStav(){

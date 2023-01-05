@@ -8,31 +8,31 @@ public enum StrojVstup {
     /////////////////////////////
     ////// Skupina signálů //////
     /////////////////////////////
-    AB_00(0, "A prázdná, B prázdná"),
-    AB_01(1, "A prázdná, B plná"),
-    AB_10(2, "A plná, B prázdná"),
-    AB_11(3, "A plná, B plná"),
+    AB_00(1, "A prázdná, B prázdná"),
+    AB_01(2, "A prázdná, B plná"),
+    AB_10(3, "A plná, B prázdná"),
+    AB_11(4, "A plná, B plná"),
 
     /////////////////////////////
     ////// Aktivní signály //////
     /////////////////////////////
-    RUC(4, "Ruční vypouštění nádrží"),
-    N_A(5, "Sanitace nádrže A"),
-    N_B(6, "Sanitace nádrže B"),
+    RUC(5, "Ruční vypouštění nádrží"),
+    N_A(6, "Sanitace nádrže A"),
+    N_B(7, "Sanitace nádrže B"),
 
     /////////////////////////////
     ////// Pasivní signály //////
     /////////////////////////////
-    LA1_0(7, "LA1 není aktivní"),
-    LA1_1(8, "LA1 aktivní"),
-    LA2_0(9, "LA2 není aktivní"),
-    LA2_1(10, "LA2 aktivní"),
-    LA3_0(11, "LA3 není aktivní"),
-    LA3_1(12, "LA3 aktivní"),
-    LA4_0(13, "LA4 není aktivní"),
-    LA4_1(14, "LA4 aktivní"),
-    Q_0(15, "Q není aktivní"),
-    Q_1(16, "Q aktivní");
+    LA1_0(8, "Horní čidlo LA1 není aktivní"),
+    LA1_1(9, "Horní čidlo LA1 aktivní"),
+    LA2_0(10, "Dolní čidlo LA2 není aktivní"),
+    LA2_1(11, "Dolní čidlo LA2 aktivní"),
+    LA3_0(12, "Horní čidlo LA3 není aktivní"),
+    LA3_1(13, "Horní čidlo LA3 aktivní"),
+    LA4_0(14, "Dolní čidlo LA4 není aktivní"),
+    LA4_1(15, "Dolní čidlo LA4 aktivní"),
+    Q_0(16, "Q není aktivní (pH kleslo)"),
+    Q_1(17, "Q aktivní (pH nekleslo)");
 
     /////////////////////////////
     //////// Konstruktor ////////
