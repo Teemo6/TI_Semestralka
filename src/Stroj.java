@@ -1,11 +1,13 @@
 import jdk.swing.interop.SwingInterOpUtils;
 
 public class Stroj {
-    private StrojStav stav;
-
     private final StrojStav[][] tab_prechodu = new StrojStav[StrojStav.values().length][StrojVstup.values().length];
-    private final int[][] tab_transformaci = new int[StrojStav.values().length][StrojVstup.values().length];
     private final int[][] tab_vystupu = new int[StrojStav.values().length][StrojVstup.values().length];
+
+    private StrojStav stav;
+    private StrojVstup vstup;
+
+    private boolean change;
 
     private boolean v1;
     private boolean v2;
@@ -18,9 +20,74 @@ public class Stroj {
     private boolean p;
     private boolean z;
 
-    public Stroj(){
-        inic_tab();
-        inic_stav();
+    public Stroj(){}
+
+    public void inic_tab(){
+        // TABULKA PRECHODU
+        // Pocatecni stav
+        tab_prechodu[StrojStav.S_0.getIndex()][StrojVstup.LA2_1.getIndex()] =  StrojStav.S_1;
+        tab_prechodu[StrojStav.S_0.getIndex()][StrojVstup.LA4_1.getIndex()] =  StrojStav.S_1;
+        tab_prechodu[StrojStav.S_1.getIndex()][StrojVstup.RUC.getIndex()]   =  StrojStav.S_2;
+        tab_prechodu[StrojStav.S_2.getIndex()][StrojVstup.LA2_0.getIndex()] =  StrojStav.S_3;
+        tab_prechodu[StrojStav.S_3.getIndex()][StrojVstup.LA4_0.getIndex()] =  StrojStav.S_4;
+
+        // Sanitace A
+        tab_prechodu[StrojStav.S_4.getIndex()] [StrojVstup.N_A.getIndex()]   = StrojStav.S_5A;
+        tab_prechodu[StrojStav.S_5A.getIndex()][StrojVstup.LA1_1.getIndex()] = StrojStav.S_6A;
+        tab_prechodu[StrojStav.S_6A.getIndex()][StrojVstup.LA2_0.getIndex()] = StrojStav.S_7A;
+        tab_prechodu[StrojStav.S_7A.getIndex()][StrojVstup.LA1_1.getIndex()] = StrojStav.S_8A;
+        tab_prechodu[StrojStav.S_8A.getIndex()][StrojVstup.Q_0.getIndex()]   = StrojStav.S_9A;
+        tab_prechodu[StrojStav.S_9A.getIndex()][StrojVstup.LA2_0.getIndex()] = StrojStav.S_4;
+
+        // Sanitace B
+        tab_prechodu[StrojStav.S_4.getIndex()] [StrojVstup.N_B.getIndex()]   = StrojStav.S_5B;
+        tab_prechodu[StrojStav.S_5B.getIndex()][StrojVstup.LA3_1.getIndex()] = StrojStav.S_6B;
+        tab_prechodu[StrojStav.S_6B.getIndex()][StrojVstup.LA4_0.getIndex()] = StrojStav.S_7B;
+        tab_prechodu[StrojStav.S_7B.getIndex()][StrojVstup.LA3_1.getIndex()] = StrojStav.S_8B;
+        tab_prechodu[StrojStav.S_8B.getIndex()][StrojVstup.Q_0.getIndex()]   = StrojStav.S_9B;
+        tab_prechodu[StrojStav.S_9B.getIndex()][StrojVstup.LA4_0.getIndex()] = StrojStav.S_4;
+
+        // TABULKA TRANSFORMACI
+
+        // TABULKA VYSTUPU
+        // Pocatecni stav
+        tab_vystupu[StrojStav.S_0.getIndex()][StrojVstup.LA2_1.getIndex()] = 1;
+        tab_vystupu[StrojStav.S_0.getIndex()][StrojVstup.LA4_1.getIndex()] = 1;
+        tab_vystupu[StrojStav.S_1.getIndex()][StrojVstup.RUC.getIndex()]   = 2;
+        tab_vystupu[StrojStav.S_2.getIndex()][StrojVstup.LA2_0.getIndex()] = 3;
+        tab_vystupu[StrojStav.S_3.getIndex()][StrojVstup.LA4_0.getIndex()] = 4;
+
+        // Sanitace A
+        tab_vystupu[StrojStav.S_4.getIndex()] [StrojVstup.N_A.getIndex()]   = 5;
+        tab_vystupu[StrojStav.S_5A.getIndex()][StrojVstup.LA1_1.getIndex()] = 6;
+        tab_vystupu[StrojStav.S_6A.getIndex()][StrojVstup.LA2_0.getIndex()] = 7;
+        tab_vystupu[StrojStav.S_7A.getIndex()][StrojVstup.LA1_1.getIndex()] = 8;
+        tab_vystupu[StrojStav.S_8A.getIndex()][StrojVstup.Q_0.getIndex()]   = 9;
+        tab_vystupu[StrojStav.S_9A.getIndex()][StrojVstup.LA2_0.getIndex()] = 10;
+
+        // Sanitace B
+        tab_vystupu[StrojStav.S_4.getIndex()] [StrojVstup.N_B.getIndex()]   = 11;
+        tab_vystupu[StrojStav.S_5B.getIndex()][StrojVstup.LA3_1.getIndex()] = 12;
+        tab_vystupu[StrojStav.S_6B.getIndex()][StrojVstup.LA4_0.getIndex()] = 13;
+        tab_vystupu[StrojStav.S_7B.getIndex()][StrojVstup.LA3_1.getIndex()] = 14;
+        tab_vystupu[StrojStav.S_8B.getIndex()][StrojVstup.Q_0.getIndex()]   = 15;
+        tab_vystupu[StrojStav.S_9B.getIndex()][StrojVstup.LA4_0.getIndex()] = 16;
+    }
+
+    public void inic_stav(){
+        stav = StrojStav.S_0;
+
+        System.out.println(StrojVystup.V1_0.getPopis());
+        System.out.println(StrojVystup.V2_0.getPopis());
+        System.out.println(StrojVystup.V3_0.getPopis());
+        System.out.println(StrojVystup.V4_0.getPopis());
+        System.out.println(StrojVystup.V5_0.getPopis());
+        System.out.println(StrojVystup.V6_0.getPopis());
+        System.out.println(StrojVystup.V7_0.getPopis());
+        System.out.println(StrojVystup.P_0.getPopis());
+        System.out.println(StrojVystup.Z_0.getPopis());
+
+        change = true;
 
         v1 = false;
         v2 = false;
@@ -34,254 +101,189 @@ public class Stroj {
         z = false;
     }
 
-    public void inic_tab(){
-        // TABULKA PRECHODU
-        // Pocatecni stav
-        tab_prechodu[StrojStav.S_0.getIndex()][StrojVstup.LA2_1.getIndex()] =  StrojStav.S_1;
-        tab_prechodu[StrojStav.S_0.getIndex()][StrojVstup.LA4_1.getIndex()] =  StrojStav.S_1;
-        tab_prechodu[StrojStav.S_1.getIndex()][StrojVstup.RUC.getIndex()] =    StrojStav.S_2;
-        tab_prechodu[StrojStav.S_2.getIndex()][StrojVstup.LA2_0.getIndex()] =  StrojStav.S_3;
-        tab_prechodu[StrojStav.S_3.getIndex()][StrojVstup.LA4_0.getIndex()] =  StrojStav.S_4;
-
-        // Sanitace A
-        tab_prechodu[StrojStav.S_4.getIndex()] [StrojVstup.N_A.getIndex()] =   StrojStav.S_5A;
-        tab_prechodu[StrojStav.S_5A.getIndex()][StrojVstup.LA1_1.getIndex()] = StrojStav.S_6A;
-        tab_prechodu[StrojStav.S_6A.getIndex()][StrojVstup.LA2_0.getIndex()] = StrojStav.S_7A;
-        tab_prechodu[StrojStav.S_7A.getIndex()][StrojVstup.LA1_1.getIndex()] = StrojStav.S_8A;
-        tab_prechodu[StrojStav.S_8A.getIndex()][StrojVstup.Q_0.getIndex()] =   StrojStav.S_9A;
-        tab_prechodu[StrojStav.S_9A.getIndex()][StrojVstup.LA2_0.getIndex()] = StrojStav.S_4;
-
-        // Sanitace B
-        tab_prechodu[StrojStav.S_4.getIndex()] [StrojVstup.N_B.getIndex()] =   StrojStav.S_5B;
-        tab_prechodu[StrojStav.S_5B.getIndex()][StrojVstup.LA3_1.getIndex()] = StrojStav.S_6B;
-        tab_prechodu[StrojStav.S_6B.getIndex()][StrojVstup.LA4_0.getIndex()] = StrojStav.S_7B;
-        tab_prechodu[StrojStav.S_7B.getIndex()][StrojVstup.LA3_1.getIndex()] = StrojStav.S_8B;
-        tab_prechodu[StrojStav.S_8B.getIndex()][StrojVstup.Q_0.getIndex()] =   StrojStav.S_9B;
-        tab_prechodu[StrojStav.S_9B.getIndex()][StrojVstup.LA4_0.getIndex()] = StrojStav.S_4;
-
-        // TABULKA TRANSFORMACI
-
-        // TABULKA VYSTUPU
-        // Pocatecni stav
-        tab_vystupu[StrojStav.S_0.getIndex()][StrojVstup.LA2_1.getIndex()] = 0;
-        tab_vystupu[StrojStav.S_0.getIndex()][StrojVstup.LA4_1.getIndex()] = 1;
-        tab_vystupu[StrojStav.S_1.getIndex()][StrojVstup.RUC.getIndex()] =   2;
-        tab_vystupu[StrojStav.S_2.getIndex()][StrojVstup.LA2_0.getIndex()] = 3;
-        tab_vystupu[StrojStav.S_3.getIndex()][StrojVstup.LA4_0.getIndex()] = 4;
-
-        // Sanitace A
-        tab_vystupu[StrojStav.S_4.getIndex()] [StrojVstup.N_A.getIndex()] =   5;
-        tab_vystupu[StrojStav.S_5A.getIndex()][StrojVstup.LA1_1.getIndex()] = 6;
-        tab_vystupu[StrojStav.S_6A.getIndex()][StrojVstup.LA2_0.getIndex()] = 7;
-        tab_vystupu[StrojStav.S_7A.getIndex()][StrojVstup.LA1_1.getIndex()] = 8;
-        tab_vystupu[StrojStav.S_8A.getIndex()][StrojVstup.Q_0.getIndex()] =   9;
-        tab_vystupu[StrojStav.S_9A.getIndex()][StrojVstup.LA2_0.getIndex()] = 10;
-
-        // Sanitace B
-        tab_vystupu[StrojStav.S_4.getIndex()] [StrojVstup.N_B.getIndex()] =   11;
-        tab_vystupu[StrojStav.S_5B.getIndex()][StrojVstup.LA3_1.getIndex()] = 12;
-        tab_vystupu[StrojStav.S_6B.getIndex()][StrojVstup.LA4_0.getIndex()] = 13;
-        tab_vystupu[StrojStav.S_7B.getIndex()][StrojVstup.LA3_1.getIndex()] = 14;
-        tab_vystupu[StrojStav.S_8B.getIndex()][StrojVstup.Q_0.getIndex()] =   15;
-        tab_vystupu[StrojStav.S_9B.getIndex()][StrojVstup.LA4_0.getIndex()] = 16;
-    }
-
-    public void inic_stav(){
-        stav = StrojStav.S_0;
-    }
-
     public void vstup_znaku(StrojVstup vstup){
-        vyst_akce(vstup);
-        transf_akce(vstup);
+        this.vstup = vstup;
     }
 
-    public void transf_akce(StrojVstup vstup){
+    public void transf_akce(){
         StrojStav tab_stav = tab_prechodu[stav.getIndex()][vstup.getIndex()];
         if(tab_stav != null){
             this.stav = tab_stav;
-            printStav();
+            change = true;
+            return;
         }
+        change = false;
     }
 
-    public void vyst_akce(StrojVstup vstup){
+    public void vyst_akce(){
         int vystup = tab_vystupu[stav.getIndex()][vstup.getIndex()];
         switch (vystup) {
-            // Smycka A
+            // Pocatecni stav
             case 1 -> {
-                v1 = true;
-                v3 = true;
+                z = true;
+
+                System.out.println(StrojVystup.Z_1.getPopis());
             }
             case 2 -> {
-                v1 = false;
-                v3 = false;
                 v5 = true;
-                p = true;
+                v7 = true;
+
+                System.out.println(StrojVystup.V5_1.getPopis());
+                System.out.println(StrojVystup.V7_1.getPopis());
             }
             case 3 -> {
                 v5 = false;
+                v6 = true;
+
+                System.out.println(StrojVystup.V5_0.getPopis());
+                System.out.println(StrojVystup.V6_1.getPopis());
+            }
+            case 4 -> {
+                v6 = false;
+                v7 = false;
+                z = false;
+
+                System.out.println(StrojVystup.V6_0.getPopis());
+                System.out.println(StrojVystup.V7_0.getPopis());
+                System.out.println(StrojVystup.Z_0.getPopis());
+            }
+
+            // Sanitace A
+            case 5 -> {
+                v1 = true;
+                v3 = true;
+
+                System.out.println(StrojVystup.V1_1.getPopis());
+                System.out.println(StrojVystup.V3_1.getPopis());
+            }
+            case 6 -> {
+                v1 = false;
+                v3 = false;
+                v5 = true;
+                p = true;
+
+                System.out.println(StrojVystup.V1_0.getPopis());
+                System.out.println(StrojVystup.V3_0.getPopis());
+                System.out.println(StrojVystup.V5_1.getPopis());
+                System.out.println(StrojVystup.P_1.getPopis());
+            }
+            case 7 -> {
+                v5 = false;
                 p = false;
                 v2 = true;
                 v3 = true;
-            }
-            case 4 -> {
-                v5 = true;
-                v7 = true;
-            }
-            case 5 -> {
-                v2 = false;
-                v3 = false;
-            }
-            case 6 -> {
-                v5 = false;
-                v7 = false;
-            }
 
-            // Smycka B
-            case 7 -> {
-                v1 = true;
-                v4 = true;
+                System.out.println(StrojVystup.V5_0.getPopis());
+                System.out.println(StrojVystup.P_0.getPopis());
+                System.out.println(StrojVystup.V2_1.getPopis());
+                System.out.println(StrojVystup.V3_1.getPopis());
             }
             case 8 -> {
+                v5 = true;
+                v7 = true;
+
+                System.out.println(StrojVystup.V5_1.getPopis());
+                System.out.println(StrojVystup.V7_1.getPopis());
+            }
+            case 9 -> {
+                v2 = false;
+                v3 = false;
+
+                System.out.println(StrojVystup.V2_0.getPopis());
+                System.out.println(StrojVystup.V3_0.getPopis());
+            }
+            case 10 -> {
+                v5 = false;
+                v7 = false;
+
+                System.out.println(StrojVystup.V5_0.getPopis());
+                System.out.println(StrojVystup.V7_0.getPopis());
+            }
+
+            // Sanitace B
+            case 11 -> {
+                v1 = true;
+                v4 = true;
+
+                System.out.println(StrojVystup.V1_1.getPopis());
+                System.out.println(StrojVystup.V4_1.getPopis());
+            }
+            case 12 -> {
                 v1 = false;
                 v4 = false;
                 v6 = true;
                 p = true;
+
+                System.out.println(StrojVystup.V1_0.getPopis());
+                System.out.println(StrojVystup.V4_0.getPopis());
+                System.out.println(StrojVystup.V6_1.getPopis());
+                System.out.println(StrojVystup.P_1.getPopis());
             }
-            case 9 -> {
+            case 13 -> {
                 v6 = false;
                 p = false;
                 v2 = true;
                 v4 = true;
+
+                System.out.println(StrojVystup.V6_0.getPopis());
+                System.out.println(StrojVystup.P_0.getPopis());
+                System.out.println(StrojVystup.V2_1.getPopis());
+                System.out.println(StrojVystup.V4_1.getPopis());
             }
-            case 10 -> {
+            case 14 -> {
                 v6 = true;
                 v7 = true;
-            }
-            case 11 -> {
-                v2 = false;
-                v4 = false;
-            }
-            case 12 -> {
-                v6 = false;
-                v7 = false;
-            }
 
-            // Chybova smycka
-            case 13 -> z = true;
-            case 14 -> {
-                v5 = false;
-                v6 = true;
+                System.out.println(StrojVystup.V6_1.getPopis());
+                System.out.println(StrojVystup.V7_1.getPopis());
             }
             case 15 -> {
-                z = false;
+                v2 = false;
+                v4 = false;
+
+                System.out.println(StrojVystup.V2_0.getPopis());
+                System.out.println(StrojVystup.V4_0.getPopis());
+            }
+            case 16 -> {
                 v6 = false;
                 v7 = false;
+
+                System.out.println(StrojVystup.V6_0.getPopis());
+                System.out.println(StrojVystup.V7_0.getPopis());
             }
         }
     }
-/*
+
     public void prompt(){
         switch (stav) {
             // Pocatecni stav
             case S_0 -> {
-                System.out.println("------------------------------");
-                System.out.println("|           Stav 0           |");
-                System.out.printf ("|"+center(stav.getPopis())+ "|\n");
-                System.out.println("|----------------------------|");
-                System.out.println("|  Jsou obě nádrže prázdné?  |");
-                System.out.println("|       0 = NE, 1 = ANO      |");
-                System.out.println("------------------------------");
-                System.out.print("Vstup: ");
-
-
-                System.out.println("------------------------------");
-                System.out.println("|           Stav 0           |");
-                System.out.printf ("|"+center(stav.getPopis())+ "|\n");
-                System.out.println("|----------------------------|");
-                System.out.println("|   Zvolte sanitaci nádrže   |");
-                System.out.println("|      0 = N/A, 1 = N/B      |");
-                System.out.println("------------------------------");
-                System.out.print("Vstup: ");
+                System.out.println("+----------------------------+");
+                System.out.println(center("Stav " + stav));
+                System.out.println(center(stav.getPopis()));
+                System.out.println("+----------------------------+");
+                System.out.println(center("Zadejte hladinu nádrží"));
+                System.out.println("+----------------------------+");
+                System.out.println("|  1 = A prázdná, B prázdná  |");
+                System.out.println("|  2 = A prázdná, B plná     |");
+                System.out.println("|  3 = A plná, B prázdná     |");
+                System.out.println("|  4 = A plná, B plná        |");
+                System.out.println("+----------------------------+");
             }
-
-            // Smycka A
-            case S_1A -> {
-                System.out.println("------------------------------");
-                System.out.println("|          Stav 1_A          |");
-                System.out.printf ("|"+center(stav.getPopis())+ "|\n");
-                System.out.println("|----------------------------|");
-                System.out.println("|   Je nádrž A plná louhu?   |");
-                System.out.println("|   0 = LA01/0, 1 = LA01/1   |");
-                System.out.println("------------------------------");
-                System.out.print("Vstup: ");
-
-            }
-            case S_2A -> {
-                System.out.println("------------------------------");
-                System.out.println("|          Stav 2_A          |");
-                System.out.printf ("|"+center(stav.getPopis())+ "|\n");
-                System.out.println("|----------------------------|");
-                System.out.println("|   Je nádrž A vyprázdněna?  |");
-                System.out.println("|   0 = LA02/0, 1 = LA02/1   |");
-                System.out.println("------------------------------");
-                System.out.print("Vstup: ");
-            }
-            case S_3A -> {
-                System.out.println("------------------------------");
-                System.out.println("|          Stav 3_A          |");
-                System.out.printf ("|"+center(stav.getPopis())+ "|\n");
-                System.out.println("|----------------------------|");
-                System.out.println("|    Je nádrž A plná vody?   |");
-                System.out.println("|   0 = LA01/0, 1 = LA01/1   |");
-                System.out.println("------------------------------");
-                System.out.print("Vstup: ");
-
-            }
-            case S_4A -> {
-                System.out.println("------------------------------");
-                System.out.println("|          Stav 4_A          |");
-                System.out.printf ("|"+center(stav.getPopis())+ "|\n");
-                System.out.println("|----------------------------|");
-                System.out.println("|     Kleslo pH na výtoku?   |");
-                System.out.println("|      0 = Q/0, 1 = Q/1      |");
-                System.out.println("------------------------------");
-                System.out.print("Vstup: ");
-            }
-
-            case S_5A -> {
-                System.out.println("------------------------------");
-                System.out.println("|          Stav 5_A          |");
-                System.out.printf ("|"+center(stav.getPopis())+ "|\n");
-                System.out.println("|----------------------------|");
-                System.out.println("|     Kleslo pH na výtoku?   |");
-                System.out.println("|    0 = LA02/0, 1 = LA02/1  |");
-                System.out.println("------------------------------");
-                System.out.print("Vstup: ");
-            }
-
-            // Smycka B
-            case S_1B -> System.out.println("");
-            case S_2B -> System.out.println("");
-            case S_3B -> System.out.println("");
-            case S_4B -> System.out.println("");
-            case S_5B -> System.out.println("");
-
-            // Chybova smycka
-            case S_6 -> System.out.println("");
-            case S_7 -> System.out.println("");
-            case S_8 -> System.out.println("");
         }
     }
 
     public static String center(String string) {
-        int cap = 28;
+        int cap = 30;
         StringBuilder sb = new StringBuilder(cap);
+        sb.append("|");
         sb.setLength((cap - string.length()) / 2);
         sb.append(string);
-        sb.setLength(cap);
+        sb.setLength(cap - 1);
+        sb.append("|");
         return sb.toString().replace('\0', ' ');
     }
-*/
+
     public void printStav(){
         System.out.println("----------------");
         System.out.println("Stav: " + stav + ", " + stav.getPopis());
@@ -294,5 +296,18 @@ public class Stroj {
         System.out.println("v7: " + v7);
         System.out.println("p: " + p);
         System.out.println("z: " + z);
+        System.out.println("----------------");
+    }
+
+    public StrojStav getStav(){
+        return stav;
+    }
+
+    public boolean changed(){
+        return change;
+    }
+
+    public void setChanged(boolean what){
+        change = what;
     }
 }
