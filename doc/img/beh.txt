@@ -1,0 +1,38 @@
++------------------------------------+
+|              Stav S_2              |
+|     Ruční vypouštění nádrže A      |
++------------------------------------+
+| 10 = Dolní čidlo LA2 není aktivní  |
+|    11 = Dolní čidlo LA2 aktivní    |
++------------------------------------+
+Vstup: 11
+       LA2_1
+
+Vstup: 10
+       LA2_0
+
+Výstup:
+        Uzavři ventil 5
+        Otevři ventil 6
++------------------------------------+
+|              Stav S_3              |
+|     Ruční vypouštění nádrže B      |
++------------------------------------+
+| 14 = Dolní čidlo LA4 není aktivní  |
+|    15 = Dolní čidlo LA4 aktivní    |
++------------------------------------+
+Vstup: 0
++-------------+
+| Stav: S_3   |
+| Ventil 1: 0 |
+| Ventil 2: 0 |
+| Ventil 3: 0 |
+| Ventil 4: 0 |
+| Ventil 5: 0 |
+| Ventil 6: 1 |
+| Ventil 7: 1 |
+| Čerpadlo: 0 |
+| Žárovka:  1 |
++-------------+
+Vstup: -1
+Ukončuji program
