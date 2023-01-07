@@ -81,7 +81,7 @@ bottom=30mm,
 		\includegraphics[width=.7\textwidth]{fav}
 		
 		\vspace{15mm}
-		{\Huge\bfseries Semestrální práce z předmětu KIV/PT}
+		{\Huge\bfseries Semestrální práce z předmětu KIV/TI}
 		
 		\vspace{5mm}
 		{\LARGE Sanitace nádrží}
@@ -122,20 +122,55 @@ bottom=30mm,
 	
 	% Analýza úlohy
 	\chapter{Analýza úlohy}
+	V úloze máme za úkol vymyslet konečněautomatový model řídícího systému pro sanitaci pivovarských nádrží. Model máme realizovat softwarově a zakreslit přechodovým grafem.
+	
+	\section{Typy konečných automatů}
+	Konečný automat je abstraktní model provádějící operace na základě vnějších podnětů. Vždy se nachází právě v jednom ze svých stavů, přičemž jeden z nich je počáteční. Vnější podněty můžeme reprezentovat sadou vstupních symbolů. Zpracováním vstupního symbolu může automat změnit svůj stav. O tomto přechodu rozhoduje přechodová funkce, která pro každý stav a každý vstupní symbol má jednoznačně definovaný další stav.
+	
+	Konečné automaty se dělí do 3 základních tříd, které na základě zpracovaného řetězce provádějí různé operace:
+	\begin{itemize}
+		\item rozpoznávací KA – jednoznačné rozhodnutí typu ano/ne
+		\item klasifikační KA – zařazení řetězce do jedné z definovaných tříd
+		\item KA s výstupní funkcí – generování výstupního řetězce
+	\end{itemize}
+
+	Jelikož v naší úloze chceme, aby systém vykonával nějakou činnost (otevřel ventil, zapnul čerpadlo), zvolíme konečný automat s výstupní funkcí.
+			
+	\section{Konečný automat s výstupní funkcí}
+	Automat, který na základě vstupního řetězce generuje výstupní řetězec z množiny výstupních symbolů. Jedná se o uspořádanou šestici
+	
+	\begin{equation}
+		A = (Q, \textstyle \sum, O, \delta, q_0, \lambda)
+	\end{equation}
+
+	kde:
+	
+	\begin{itemize}
+		\item \texttt{$Q$} – konečná, neprázdná množina stavů
+		\item \texttt{$\textstyle \sum$} – konečná, neprázdná množina vstupních symbolů
+		\item \texttt{$O$} – konečná, neprázdná množina výstupních symbolů
+		\item \texttt{$\delta$} – přechodová funkce
+		\item \texttt{$q_0$} – počáteční stav
+		\item \texttt{$\lambda$} – výstupní funkce
+	\end{itemize}
+	
+	Konečné automaty se dále dělí na typ Mealy a Moore. Rozdíl mezi těmito automaty je ten, že u Mealyho automatu je výstupní symbol definován jak aktuálním stavem, tak aktuálním vstupním symbolem, kdežto u automatu typu Moore je výstupní symbol závislý pouze na aktuálním stavu.
+	
+	V naší úloze budeme navrhovat konečný automat s výstupní funkcí typu Mealy.
 	
 	% Automatový model
 	\chapter{Automatový model}
 	
 	\section{Vstupní signály}
-	Očekává se, že systém bude řízen pouze dvěma tlačítky, které začnou čištění jednotlivých nádrží. Dále očekáváme, že pokud nejsou nádrže vyprázdněny před sanitací, tak je operátor vypustí ručním ovládáním. Automat tedy bude mít 3 vstupní aktivní signály: 
+	Očekává se, že systém bude řízen pouze dvěma tlačítky, které začnou čištění jednotlivých nádrží. Dále očekáváme, že pokud nejsou nádrže plně vyprázdněny, tak je musí operátor vypustit ručním ovládáním. Automat tedy bude mít 3 vstupní aktivní signály: 
 	
 	\begin{itemize}
 		\item \texttt{N\_A} – spustí čištění nádrže A
 		\item \texttt{N\_B} – spustí čištění nádrže B
-		\item \texttt{RUC} – vypustí obsah nádrží 
+		\item \texttt{RUC} – vypustí obsah obou nádrží 
 	\end{itemize}
 
-	Obě nádrže mají čidla, které snímají horní a dolní mez hladiny. Dále je na výtoku umístěn snímač pH. Každé čidlo může nabývat dvou stavů – není aktivní (\texttt{0}), aktivní (\texttt{1}). Čidla nádrže jsou v aktivním stavu, pokud platí \texttt{hladina kapaliny v nádrži >= snímaná mez}. Snímač výtoku je v aktivním stavu, pokud platí \texttt{pH na výtoku >= snímaná mez}. Automat tedy bude mít 5 pasivních vstupních signálů, které mohou nabývat dvou různých hodnot:
+	Nádrže mají dvě čidla snímající horní a dolní mez hladiny. Dále je na výtoku umístěn snímač pH. Každé čidlo může nabývat dvou stavů – není aktivní (\texttt{0}), aktivní (\texttt{1}). Čidla nádrže jsou v aktivním stavu, pokud platí \texttt{hladina kapaliny v nádrži >= snímaná mez}. Snímač výtoku je v aktivním stavu, pokud platí \texttt{pH na výtoku >= snímaná mez}. Automat tedy bude mít 5 pasivních vstupních signálů, které mohou nabývat dvou různých hodnot:
 
 	\begin{itemize}
 		\item \texttt{LA1\_i} – horní snímač hladiny nádrže A
@@ -166,13 +201,13 @@ bottom=30mm,
 	\end{table}
 
 	\section{Výstupní signály}
-	Jedná se o signály, které vykonají akci při přechodu mezi stavy. V modelu budeme ovládat celkem 7 ventilů, kde každý může být ve stavu zavřen (\texttt{0}) nebo otevřen (\texttt{1}). Stejným způsobem budeme ovládat také žárovku a čerpadlo. Všechny výstupní signály jsou vidět v tabulce \ref{tab:ridici}.
+	Jedná se o signály, které vykonají akci při přechodu mezi stavy. V modelu budeme ovládat celkem 7 ventilů, kde každý může být ve stavu uzavřen (\texttt{0}) či otevřen (\texttt{1}). Stejným způsobem budeme ovládat žárovku a čerpadlo. Všechny řídící signály jsou vidět v tabulce \ref{tab:vystupni}.
 	
 	\begin{table}[]
 		\centering
 		\begin{tabular}{ll}
 			\hline
-			\multicolumn{1}{c}{Řídící signál} 	& \multicolumn{1}{c}{Popis}  	\\ \hline
+			\multicolumn{1}{c}{Výstupní signál} 	& \multicolumn{1}{c}{Popis}  	\\ \hline
 			V1\_i          					  	& Ventil 1      			   	\\
 			V2\_i         					  	& Ventil 2      				\\
 			V3\_i          					  	& Ventil 3      				\\
@@ -183,8 +218,8 @@ bottom=30mm,
 			P\_i          					  	& Čerpadlo      				\\
 			Z\_i          					  	& Žárovka      					\\ \hline
 		\end{tabular}
-		\caption{Řídící signály}
-		\label{tab:ridici}
+		\caption{Výstupní signály}
+		\label{tab:vystupni}
 	\end{table}	
 
 	\section{Stavy modelu}
@@ -239,14 +274,14 @@ bottom=30mm,
 	
 	 \begin{itemize}
 		\item \texttt{Main} – hlavní třída, bere vstup od uživatele a předává ho automatu
-		\item \texttt{Stroj} – třída reprezentující řídící systém (konečný automat)
+		\item \texttt{Stroj} – třída reprezentující konečný automat
 		\item \texttt{StrojStav} – výčtový typ reprezentující stavy konečného automatu
-		\item \texttt{StrojVstup} – výčtový typ reprezentující signály konečného automatu
-		\item \texttt{StrojVystup} – výčtový typ reprezentující řídící signály konečného automatu
+		\item \texttt{StrojVstup} – výčtový typ reprezentující vstupní signály konečného automatu
+		\item \texttt{StrojVystup} – výčtový typ reprezentující výstupní signály konečného automatu
 	\end{itemize}	
 	
-	\section{Automat}
-	V této třídě jsme při implementaci postupovali doporučenou metodou. Automat si uchovává svůj stav, stavové proměnné a zadaný vstup. Dále obsahuje přechodovou a výstupní tabulku, podle kterými se automat řídí.
+	\section{Konečný automat}
+	V této třídě jsme při implementaci postupovali doporučenou metodou. Automat si~uchovává svůj stav, stavové proměnné a zadaný vstup. Dále obsahuje přechodovou a výstupní tabulku, podle kterých se automat řídí.
 	
 	Při spuštění programu naplníme tabulky metodou \texttt{inic\_tab()} a nastavíme stav a stavové proměnné automatu pomocí \texttt{inic\_stav()}. Následuje nekonečná smyčka, kde automatu předáváme vstup od uživatele pomocí metody \texttt{vstup\_znaku()}. O tom, jestli se něco vykoná po zadání vstupu, rozhodují metody \texttt{vyst\_akce()} a \texttt{transf\_akce()}. Ty se podívají do tabulky, podle které provedou akci.
 	
@@ -263,10 +298,10 @@ bottom=30mm,
 		\texttt{java -jar TI\_Semestralka.jar} \keys{\return}
 	}
 	
-	Po spuštění se vypíše do konzole nápověda pro ovládání a automat se uvede do počátečního stavu. Názorná ukázka je vidět na obrázku \ref{fig:start} na straně \pageref{fig:start}. 
+	Po spuštění se vypíše do konzole nápověda ovládání a automat se přepne do počátečního stavu. Názorná ukázka je vidět na obrázku \ref{fig:start} na straně \pageref{fig:start}. 
 	
 	\section{Ovládání programu}
-	Ovládání je velmi intuitivní, u každého stavu se vypíše nabídka relevantních vstupů, poté se čeká na uživatele, který si zvolí. Pokud by daný vstup změnil stav automatu, vypíšou se všechny výstupní akce transformace. Program přijímá pouze číselný vstup. V kterýkoliv okamžik můžeme vypsat hodnoty stavových proměnných číslem \texttt{0}. Jakékoliv záporné číslo (ne jenom \texttt{-1}) ukončí program. Ukázkový běh programu je vidět na obrázku \ref{fig:beh} na straně \pageref{fig:beh}.
+	Ovládání je velmi intuitivní, u každého stavu se vypíše nabídka relevantních vstupů, poté se čeká na uživatele, který zvolí. Pokud by daný vstup změnil stav automatu, vypíšou se všechny výstupní akce transformace. Program přijímá pouze číselný vstup. V kterýkoliv okamžik můžeme vypsat hodnoty stavových proměnných číslem \texttt{0}. Jakékoliv záporné číslo (ne jenom \texttt{-1}) ukončí program. Ukázkový běh programu je vidět na obrázku \ref{fig:beh} na straně \pageref{fig:beh}.
 
 	\begin{figure}
 		\centering
@@ -285,5 +320,11 @@ bottom=30mm,
 
 	% Závěr
 	\chapter{Závěr}
+	
+	\section{Shrnutí}
+	Měli jsme za úkol vytvořit konečněautomatový model řídícího systému sanitace pivovarských nádrží. Při návrhu jsme zvolili konečný automat typu Mealy a následně jsme pro něj vytvořili přechodový graf. Model jsme implementovali v programovacím jazyce Java. Naprogramovaný model dokáže přijímat vstup, měnit svůj stav a tvořit výstup za pomoci vytvořených tabulek. Při testování naší implementace jsme neobjevili žádné chyby, model tedy odpovídá přechodovému grafu.
+	
+	\section{Možná vylepšení}
+	Vytvořený program v podstatě nerozlišuje aktivní nebo pasivní vstup. Musí se vždy zeptat uživatele, v jakém stavu se čidlo nádrže nachází. Jedno možné vylepšení (nebo spíše přiblížení realitě) by mohlo být to, že namísto okamžitého vyhodnocení vstupu od uživatele by mohl program simulovat naplňování a vyprazdňování nádrží časovým intervalem. Po uplynutí času by se nádrž naplnila a čidlo sepnulo, tudíž by se samovolně změnil stav. Avšak z důvodu zbytečného čekání při testování a následné kontrole jsme tuto možnost neimplementovali.
 	
 \end{document}
